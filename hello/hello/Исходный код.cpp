@@ -1,15 +1,42 @@
 #include "Point.h"
+#include <conio.h>
 
 using namespace std;
 
 int main(void)
 {
-	Point point1(3, 5, '#'), point2(5, 10, '*');
+	system("mode con lines=25 cols=80"); //- size of console window without scroll
 
-	point1.Draw();
-	point2.Draw();
+	HorisontalLine upLine(0,78,0,'+');
+	HorisontalLine downLine(0, 78, 24, '+');
 
-	system("pause");
+	VerticalLine leftLine(0, 24, 0, '+');
+	VerticalLine rightLine(0,24,78,'+');
+
+	upLine.Draw();
+	downLine.Draw();
+	leftLine.Draw();
+	rightLine.Draw();
+
+	Point p(5, 5, '*');
+	snake snake(p, 3, direct::down);
+	snake.Draw();
+	
+	char key;
+
+	while (true)
+	{
+		key = _getch();
+		snake.Control(key);
+		Sleep(100);
+		snake.Move();
+	}
+
+
+
+
+	system("pause>>void");
+
 }
 
 
