@@ -3,6 +3,7 @@
 #include <iostream>
 #include <Windows.h>
 #include <vector>
+#include <time.h>
 
 using namespace std;
 
@@ -17,6 +18,13 @@ public:
 	void Move(int, direct);
 	void Draw();
 	void Clear();
+	void X(int);
+	void Y(int);
+	int X()const;
+	int Y()const;
+	void Symb(char);
+	int Symb()const;
+	bool isHit(Point);
 private:
 	int x, y;
 	char symb;
@@ -27,7 +35,8 @@ class Figure
 protected:
 	vector<Point> vec;
 public:
-	void Draw();
+	virtual void Draw();
+	bool isHit(Point);
 };
 
 class HorisontalLine:public Figure
@@ -46,6 +55,17 @@ public:
 	~VerticalLine(){}
 };
 
+class Food
+{
+public:
+	Food(int, int, char);
+	~Food(){}
+	Point createFood();
+private:
+	int length, height;
+	char symb;
+};
+
 class snake : public Figure
 {
 public:
@@ -54,6 +74,21 @@ public:
 	void Move();
 	Point newHead();
 	void Control(char);
+	bool Eat(Point);
+	Point head();
+	bool isHitTail();
 private:
 	direct rout;
 };
+
+class walls:public Figure
+{
+	vector<Figure> vec;
+public:
+	walls(int height, int length);
+	~walls(){}
+	void Draw();
+	bool isHit(Point);
+};
+
+

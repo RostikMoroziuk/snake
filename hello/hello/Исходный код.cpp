@@ -7,33 +7,42 @@ int main(void)
 {
 	system("mode con lines=25 cols=80"); //- size of console window without scroll
 
-	HorisontalLine upLine(0,78,0,'+');
-	HorisontalLine downLine(0, 78, 24, '+');
+	char key;
 
-	VerticalLine leftLine(0, 24, 0, '+');
-	VerticalLine rightLine(0,24,78,'+');
+	bool flag;
 
-	upLine.Draw();
-	downLine.Draw();
-	leftLine.Draw();
-	rightLine.Draw();
+	walls rect(24,78);
 
 	Point p(5, 5, '*');
-	snake snake(p, 3, direct::down);
+	snake snake(p, 20, direct::right);
 	snake.Draw();
-	
-	char key;
+
+	Food tempFood(25, 80, '$');
+	Point food = tempFood.createFood();
+	food.Draw();
 
 	while (true)
 	{
-		key = _getch();
-		snake.Control(key);
+		if (_kbhit()) // for press key event
+		{
+			key = _getch();
+			snake.Control(key);
+		}
+
+		if (rect.isHit(snake.head()) || snake.isHitTail())
+		{
+			break;
+		}
+
+		if (snake.Eat(food))
+		{
+			food = tempFood.createFood();
+			food.Draw();
+		}
+		
 		Sleep(100);
 		snake.Move();
 	}
-
-
-
 
 	system("pause>>void");
 
