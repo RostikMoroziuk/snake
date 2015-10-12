@@ -140,9 +140,10 @@ Point snake::newHead()
 
 void snake::Control(char key)
 {
+
 	switch (key)
 	{
-	case 'a':
+	 case 'a':
 		rout = direct::left;
 		break;
 	case 'w':
@@ -152,6 +153,19 @@ void snake::Control(char key)
 		rout = direct::right;
 		break;
 	case 's':
+		rout = direct::down;
+		break;
+		
+	case 75:
+		rout = direct::left;
+		break;
+	case 72:
+		rout = direct::up;
+		break;
+	case 77:
+		rout = direct::right;
+		break;
+	case 80:
 		rout = direct::down;
 		break;
 	}
@@ -186,10 +200,27 @@ bool snake::isHitTail()
 	return false;
 }
 
+void snake::newSnake(Point point)
+{
+	for (int i = 0; i < vec.size() - 1; i++)
+	{
+		vec[i].Symb(' ');
+		vec[i].Draw();
+	}
+	vec.clear();
+	for (int i = 0; i < 3; i++)
+	{
+		Point p = point;
+		p.Move(i, direct::right);
+		vec.push_back(p);
+	}
+	Draw();
+}
+
 Food::Food(int _height, int _length, char _symb)
 {
-	height = (_height-2);
-	length = (_length-2);
+	heightofMap = (_height - 2);
+	lengthofMap = (_length - 2);
 	symb = _symb;
 }
 
@@ -197,8 +228,8 @@ Point Food::createFood()
 {
 	srand(time(NULL));
 	Point point;
-	point.X((rand() % length) + 1);
-	point.Y((rand() % height) + 1);
+	point.X((rand() % lengthofMap)+1);
+	point.Y((rand() % heightofMap)+1);
 	return point;
 }
 
@@ -236,3 +267,18 @@ bool walls::isHit(Point p)
 	return false;
 }
 
+void walls::newWalls()
+{
+	HorisontalLine upLine(0, 78, 0, '+');
+	HorisontalLine downLine(0, 78, 24, '+');
+
+	VerticalLine leftLine(0, 24, 0, '+');
+	VerticalLine rightLine(0, 24, 78, '+');
+
+	vec.push_back(upLine);
+	vec.push_back(downLine);
+	vec.push_back(leftLine);
+	vec.push_back(rightLine);
+
+	Draw();
+}

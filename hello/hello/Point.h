@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include <vector>
 #include <time.h>
+#include <conio.h>
 
 using namespace std;
 
@@ -62,7 +63,7 @@ public:
 	~Food(){}
 	Point createFood();
 private:
-	int length, height;
+	int lengthofMap, heightofMap;
 	char symb;
 };
 
@@ -77,6 +78,7 @@ public:
 	bool Eat(Point);
 	Point head();
 	bool isHitTail();
+	void newSnake(Point);
 private:
 	direct rout;
 };
@@ -89,6 +91,7 @@ public:
 	~walls(){}
 	void Draw();
 	bool isHit(Point);
+	void newWalls();
 };
 
 
